@@ -4,10 +4,10 @@ namespace ProjectFormOnsite.Repositories
 {
     public interface IOnsiteRepo
     {
-        public Task<List<OnsiteModel>> GetAllOnsite();
-        public Task<OnsiteModel> GetOnsite(int id);
-        public Task<int> AddOnsite(OnsiteModel model);
-        //public Task<int> UpdateOnsite(int id, OnsiteModel model);
-        //public Task DeleteOnsite(int id);
+        public Task<List<OnsiteModel>> GetAllOnsiteAsync();
+        public Task<OnsiteModel> GetOnsiteAsync(int id);
+        public Task<int> AddOnsiteAsync(OnsiteModel model);
+        public Task UpdateOnsiteAsync(int id, OnsiteModel model);
+        public Task DeleteOnsiteAsync(int id);
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectFormOnsite.Data;
+using ProjectFormOnsite.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddDbContext<DataContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("Form"));
 });
 builder.Services.AddAutoMapper(typeof(Program));
+//life cycle DI
+builder.Services.AddScoped<IOnsiteRepo, OnsiteRepo>();
 
 var app = builder.Build();
 

@@ -16,7 +16,7 @@ namespace ProjectFormOnsite.Repositories
             _mapper = mapper;
         }
 
-        public async Task<int> AddOnsite(OnsiteModel model)
+        public async Task<int> AddOnsiteAsync(OnsiteModel model)
         {
             var newOnsite =  _mapper.Map<Onsite>(model);
             _context.Onsites!.Add(newOnsite);
@@ -25,24 +25,29 @@ namespace ProjectFormOnsite.Repositories
             return newOnsite.OnsiteID;
         }
 
-       /* public Task DeleteOnsite(int id)
+        public async Task DeleteOnsiteAsync(int id)
         {
-            
-        }*/
+            var deleteOnsite = _context.Onsites!.FirstOrDefault(a => a.OnsiteID == id);
+            if (deleteOnsite != null)
+            {
+                _context.Onsites!.Remove(deleteOnsite);
+                await _context.SaveChangesAsync() ;
+            }
+        }
 
-        public async Task<List<OnsiteModel>> GetAllOnsite()
+        public async Task<List<OnsiteModel>> GetAllOnsiteAsync()
         {
             var onsite = await _context.Onsites.ToListAsync();
             return _mapper.Map<List<OnsiteModel>>(onsite);
         }
 
-        public async Task<OnsiteModel> GetOnsite(int id)
+        public async Task<OnsiteModel> GetOnsiteAsync(int id)
         {
             var onsite = await _context.Onsites.FindAsync(id);
             return _mapper.Map<OnsiteModel>(onsite);
         }
 
-       /* public async Task<int> UpdateOnsite(int id, OnsiteModel model)
+        public async Task UpdateOnsiteAsync(int id, OnsiteModel model)
         {
             if (id == model.OnsiteID)
             {
@@ -50,7 +55,7 @@ namespace ProjectFormOnsite.Repositories
                 _context.Onsites!.Update(updateOnsite);
                 await _context.SaveChangesAsync();
             }
-             
-        }*/
+
+        }
     }
 }
