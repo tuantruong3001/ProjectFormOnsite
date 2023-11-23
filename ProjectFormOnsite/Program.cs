@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using ProjectFormOnsite.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,9 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
-/*builder.Services.AddDbContext<QLHSDataContext>(option => {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("QLHS"));
-});*/
+builder.Services.AddDbContext<DataContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("Form"));
+});
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

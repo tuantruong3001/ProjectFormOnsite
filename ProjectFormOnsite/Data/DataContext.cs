@@ -8,7 +8,9 @@ namespace ProjectFormOnsite.Data
         {
         }
         #region DbSet
-       
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Onsite> Onsites { get; set; }
         #endregion
     }
 }
