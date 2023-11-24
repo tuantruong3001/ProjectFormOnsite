@@ -44,7 +44,21 @@ namespace ProjectFormOnsite.Repositories
         public async Task<OnsiteModel> GetOnsiteByIdAsync(int id)
         {
             var onsite = await _context.Onsites.FindAsync(id);
-            return _mapper.Map<OnsiteModel>(onsite);
+            return _mapper.Map<InforOnsiteModel>(onsite);
+        }*/
+        public async Task<InforOnsiteModel> GetOnsiteByIdAsync(int id)
+        {
+            var onsite = await _context.Onsites
+                .Include(o => o.Employee)
+                .Include(a => a.Approver)               
+                .FirstOrDefaultAsync(o => o.OnsiteID == id);
+            if (onsite == null)
+            {
+                return null;
+            }
+            var onsiteModel = _mapper.Map<InforOnsiteModel>(onsite);
+
+            return onsiteModel;
         }
 
         public async Task UpdateOnsiteAsync(int id, OnsiteModel model)

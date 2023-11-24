@@ -12,5 +12,21 @@ namespace ProjectFormOnsite.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<Onsite> Onsites { get; set; }
         #endregion
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Onsite>()
+                .HasOne(o => o.Employee)
+                .WithMany()
+                .HasForeignKey(o => o.EmployeeID);
+
+            modelBuilder.Entity<Onsite>()
+                .HasOne(o => o.Approver)
+                .WithMany()
+                .HasForeignKey(o => o.ApproverID);
+            modelBuilder.Entity<Employee>()
+                .HasOne(b => b.Department)
+                .WithMany()
+                .HasForeignKey(b => b.DepartmentID);
+        }
     }
 }
