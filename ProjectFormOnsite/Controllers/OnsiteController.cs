@@ -54,5 +54,35 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+        [HttpPut]
+        public async Task<IActionResult> UpdateOnsite(int id, [FromBody] OnsiteModel model)
+        {
+            try
+            {
+                if (id != model.OnsiteID)
+                {
+                    return NotFound();
+                }
+                await _onsiteRepo.UpdateOnsiteAsync(id, model);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteOnsite([FromRoute] int id)
+        {
+            try
+            {               
+                await _onsiteRepo.DeleteOnsiteAsync(id);
+                return Ok();
+            }
+            catch { 
+                return BadRequest();
+            }
+            
+        }
     }
 }

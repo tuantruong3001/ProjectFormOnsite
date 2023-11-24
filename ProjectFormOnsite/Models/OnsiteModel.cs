@@ -1,4 +1,6 @@
-﻿namespace ProjectFormOnsite.Models
+﻿using ProjectFormOnsite.Data;
+
+namespace ProjectFormOnsite.Models
 {
     public class OnsiteModel
     {
@@ -10,6 +12,7 @@
         public string? EndDate { get; set; }
         public int Status { get; set; }
         public string? Detail { get; set; }
-        public string? Reason { get; set; }
+        public string? Reason { get; set; }      
+
     }
 }

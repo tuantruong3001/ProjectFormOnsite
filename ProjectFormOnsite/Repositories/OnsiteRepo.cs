@@ -18,7 +18,7 @@ namespace ProjectFormOnsite.Repositories
 
         public async Task<int> AddOnsiteAsync(OnsiteModel model)
         {
-            var newOnsite =  _mapper.Map<Onsite>(model);
+            var newOnsite = _mapper.Map<Onsite>(model);
             _context.Onsites!.Add(newOnsite);
             await _context.SaveChangesAsync();
 
@@ -31,7 +31,7 @@ namespace ProjectFormOnsite.Repositories
             if (deleteOnsite != null)
             {
                 _context.Onsites!.Remove(deleteOnsite);
-                await _context.SaveChangesAsync() ;
+                await _context.SaveChangesAsync();
             }
         }
 
