@@ -41,7 +41,7 @@ namespace ProjectFormOnsite.Repositories
             return _mapper.Map<List<OnsiteModel>>(onsite);
         }
 
-        public async Task<OnsiteModel> GetOnsiteAsync(int id)
+        public async Task<OnsiteModel> GetOnsiteByIdAsync(int id)
         {
             var onsite = await _context.Onsites.FindAsync(id);
             return _mapper.Map<OnsiteModel>(onsite);

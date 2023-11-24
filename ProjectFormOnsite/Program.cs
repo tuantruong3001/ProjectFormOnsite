@@ -13,11 +13,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 builder.Services.AddDbContext<DataContext>(option =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("Form"));
+    option.UseSqlServer(builder.Configuration.GetConnectionString("FormOnsite"));
 });
 builder.Services.AddAutoMapper(typeof(Program));
 //life cycle DI
 builder.Services.AddScoped<IOnsiteRepo, OnsiteRepo>();
+builder.Services.AddScoped<IDepartmentRepo, DepartmentRepo>();
+builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
 
 var app = builder.Build();
 

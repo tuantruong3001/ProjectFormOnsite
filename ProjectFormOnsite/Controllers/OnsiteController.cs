@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProjectFormOnsite.Models;
 using ProjectFormOnsite.Repositories;
 
 namespace ProjectFormOnsite.Controllers
@@ -10,7 +11,7 @@ namespace ProjectFormOnsite.Controllers
     {
         private readonly IOnsiteRepo _onsiteRepo;
         public OnsiteController(IOnsiteRepo repo)
-        { 
+        {
             _onsiteRepo = repo;
         }
 
@@ -27,11 +28,26 @@ namespace ProjectFormOnsite.Controllers
             }
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOnsite()
+        public async Task<IActionResult> GetOnsiteById(int id)
         {
             try
-            { 
-                return Ok();
+            {
+                var onsite = await _onsiteRepo.GetOnsiteByIdAsync(id);
+                return onsite == null ? NotFound() : Ok(onsite);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddOnsite(OnsiteModel model)
+        {
+            try
+            {
+                var newOnsiteId = await _onsiteRepo.AddOnsiteAsync(model);
+                var onsite = await _onsiteRepo.GetOnsiteByIdAsync(newOnsiteId);
+                return onsite == null ? NotFound() : Ok(onsite);
             }
             catch (Exception)
             {
