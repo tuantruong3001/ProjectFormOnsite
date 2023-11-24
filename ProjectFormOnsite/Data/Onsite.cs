@@ -8,7 +8,9 @@ namespace ProjectFormOnsite.Data
     {
         [Key]
         public int OnsiteID { get; set; }
+        //[ForeignKey("EmployeeID")]
         public int EmployeeID { get; set;}
+        //[ForeignKey("ApproverID")]
         public int ApproverID { get; set; }
         public string? Destination { get; set; }
         public string? StartDate { get; set; }
@@ -16,5 +18,8 @@ namespace ProjectFormOnsite.Data
         public int Status { get; set; }
         public string? Detail {  get; set; }
         public string? Reason { get; set; }
+        /*public virtual Employee? Employee { get; set; }
+        public virtual Employee? Approver { get; set; }*/
+
     }
 }
