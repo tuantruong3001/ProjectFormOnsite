@@ -63,7 +63,7 @@ namespace ProjectFormOnsite.Controllers
                 {
                     return NotFound();
                 }
-                await _departmentRepo.DeleteDepartmentAsync(id);
+                await _departmentRepo.UpdateDepartmentAsync(id, model);
                 return Ok();
             }
             catch (Exception)
@@ -79,7 +79,8 @@ namespace ProjectFormOnsite.Controllers
                 await _departmentRepo.DeleteDepartmentAsync(id);
                 return Ok();
             }
-            catch (Exception) { 
+            catch (Exception)
+            {
                 return BadRequest();
             }
         }

@@ -50,8 +50,8 @@ namespace ProjectFormOnsite.Repositories
         {
             if (id == model.DepartmentID)
             {
-                var updateDepartment = _mapper.Map<DepartmentModel>(model);
-                _context.Update(updateDepartment);
+                var updateDepartment = _mapper.Map<Department>(model);
+                _context.Departments.Update(updateDepartment);
                 await _context.SaveChangesAsync();
             }
         }
