@@ -20,7 +20,8 @@ namespace ProjectFormOnsite.Controllers
         {
             try
             {
-                return Ok(await _onsiteRepo.GetAllOnsiteAsync());
+                var onsite = await _onsiteRepo.GetAllOnsiteAsync();
+                return Ok(onsite);
             }
             catch (Exception)
             {

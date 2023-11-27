@@ -24,14 +24,20 @@ namespace ProjectFormOnsite.Repositories
             return newOnsite.DepartmentID;
         }
 
-        public Task DeleteDepartmentAsync(int id)
+        public async Task DeleteDepartmentAsync(int id)
         {
-            throw new NotImplementedException();
+            var deleteDepartment = _context.Departments!.FirstOrDefault(a => a.DepartmentID == id);
+            if (deleteDepartment != null)
+            {
+                _context.Departments.Remove(deleteDepartment);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<List<DepartmentModel>> GetAllDepartmentAsync()
+        public async Task<List<DepartmentModel>> GetAllDepartmentAsync()
         {
-            throw new NotImplementedException();
+            var department = await _context.Departments!.ToListAsync();
+            return _mapper.Map<List<DepartmentModel>>(department);
         }
 
         public async Task<DepartmentModel> GetDepartmentByIdAsync(int id)
@@ -40,9 +46,14 @@ namespace ProjectFormOnsite.Repositories
             return _mapper.Map<DepartmentModel>(department);
         }
 
-        public Task UpdateDepartmentAsync(int id, DepartmentModel model)
+        public async Task UpdateDepartmentAsync(int id, DepartmentModel model)
         {
-            throw new NotImplementedException();
+            if (id == model.DepartmentID)
+            {
+                var updateDepartment = _mapper.Map<DepartmentModel>(model);
+                _context.Update(updateDepartment);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

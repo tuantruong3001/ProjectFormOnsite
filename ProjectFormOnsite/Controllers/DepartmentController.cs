@@ -34,10 +34,52 @@ namespace ProjectFormOnsite.Controllers
             {
                 var newDepartmentId = await _departmentRepo.AddDepartmentAsync(model);
                 var department = await _departmentRepo.GetDepartmentByIdAsync(newDepartmentId);
-                return department == null? NotFound() : Ok(department);
+                return department == null ? NotFound() : Ok(department);
             }
             catch (Exception)
             {
+                return BadRequest();
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllDepartment()
+        {
+            try
+            {
+                var department = await _departmentRepo.GetAllDepartmentAsync();
+                return Ok(department);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentModel model)
+        {
+            try
+            {
+                if (id != model.DepartmentID)
+                {
+                    return NotFound();
+                }
+                await _departmentRepo.DeleteDepartmentAsync(id);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDepartment(int id)
+        {
+            try
+            {
+                await _departmentRepo.DeleteDepartmentAsync(id);
+                return Ok();
+            }
+            catch (Exception) { 
                 return BadRequest();
             }
         }

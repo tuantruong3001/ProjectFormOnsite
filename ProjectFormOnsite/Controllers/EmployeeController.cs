@@ -32,7 +32,8 @@ namespace ProjectFormOnsite.Controllers
         {
             try
             {
-                return Ok(await _employeeRepo.GetAllEmployeeAsync());
+                var employee = await _employeeRepo.GetAllEmployeeAsync();
+                return Ok(employee);
             }
             catch (Exception)
             {
@@ -83,5 +84,6 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+        
     }
 }

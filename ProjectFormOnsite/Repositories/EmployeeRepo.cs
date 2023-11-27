@@ -35,13 +35,19 @@ namespace ProjectFormOnsite.Repositories
 
         public async Task<List<EmployeeModel>> GetAllEmployeeAsync()
         {
-            var employee = await _context.Employees.ToListAsync();
+            var employee = await _context.Employees
+                .Include(a => a.Department)
+                .ToListAsync();
+
             return _mapper.Map<List<EmployeeModel>>(employee);
         }
 
         public async Task<EmployeeModel> GetEmployeeByIdAsync(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _context.Employees
+                .Include(a => a.Department)
+                .FirstOrDefaultAsync(o => o.EmployeeID == id);   
+            
             return _mapper.Map<EmployeeModel>(employee);
         }
 
