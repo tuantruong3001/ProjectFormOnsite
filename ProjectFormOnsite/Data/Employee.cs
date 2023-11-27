@@ -15,6 +15,5 @@ namespace ProjectFormOnsite.Data
         public string? Phone { get; set; }
         public string? Address { get; set; }
         public virtual Department? Department { get; set; }
-
     }
 }

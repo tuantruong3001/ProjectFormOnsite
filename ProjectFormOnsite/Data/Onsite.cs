@@ -18,10 +18,7 @@ namespace ProjectFormOnsite.Data
         public int Status { get; set; }
         public string? Detail {  get; set; }
         public string? Reason { get; set; }
-
         public virtual Employee? Employee { get; set; }
         public virtual Employee? Approver { get; set; }
-
-
     }
 }

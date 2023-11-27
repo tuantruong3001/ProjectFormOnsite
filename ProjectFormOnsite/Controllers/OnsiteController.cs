@@ -71,7 +71,7 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOnsite([FromRoute] int id)
         {
             try
@@ -80,9 +80,25 @@ namespace ProjectFormOnsite.Controllers
                 return Ok();
             }
             catch { 
+                return NotFound();
+            }           
+        }
+        [HttpPatch]
+        public async Task<IActionResult> ConfirmOnsite(int id, [FromBody] ConfirmModel model)
+        {
+            try
+            {
+                if (id != model.OnsiteID)
+                {
+                    return NotFound();
+                }
+                await _onsiteRepo.ConfirmOnsiteAsync(id, model);
+                return Ok();
+            }
+            catch (Exception)
+            {
                 return BadRequest();
             }
-            
         }
     }
 }

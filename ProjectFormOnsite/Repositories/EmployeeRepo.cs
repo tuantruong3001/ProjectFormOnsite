@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ProjectFormOnsite.Data;
 using ProjectFormOnsite.Models;
 
@@ -22,15 +23,20 @@ namespace ProjectFormOnsite.Repositories
 
             return newOnsite.EmployeeID;
         }
-
-        public Task DeleteEmployeeAsync(int id)
+        public async Task DeleteEmployeeAsync(int id)
         {
-            throw new NotImplementedException();
+            var deleteEmployee = _context.Employees!.FirstOrDefault(a => a.EmployeeID == id);
+            if (deleteEmployee != null)
+            {
+                _context.Employees.Remove(deleteEmployee);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<List<EmployeeModel>> GetAllEmployeeAsync()
+        public async Task<List<EmployeeModel>> GetAllEmployeeAsync()
         {
-            throw new NotImplementedException();
+            var employee = await _context.Employees.ToListAsync();
+            return _mapper.Map<List<EmployeeModel>>(employee);
         }
 
         public async Task<EmployeeModel> GetEmployeeByIdAsync(int id)
@@ -39,9 +45,14 @@ namespace ProjectFormOnsite.Repositories
             return _mapper.Map<EmployeeModel>(employee);
         }
 
-        public Task UpdateEmployeeAsync(int id, EmployeeModel model)
+        public async Task UpdateEmployeeAsync(int id, EmployeeModel model)
         {
-            throw new NotImplementedException();
+            if (id == model.EmployeeID)
+            {
+                var updateEmployee = _mapper.Map<Employee>(model);
+                _context.Employees!.Update(updateEmployee);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

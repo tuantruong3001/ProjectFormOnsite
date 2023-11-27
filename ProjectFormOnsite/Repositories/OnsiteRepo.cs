@@ -41,16 +41,16 @@ namespace ProjectFormOnsite.Repositories
             return _mapper.Map<List<OnsiteModel>>(onsite);
         }
 
-       /* public async Task<OnsiteModel> GetOnsiteByIdAsync(int id)
-        {
-            var onsite = await _context.Onsites.FindAsync(id);
-            return _mapper.Map<InforOnsiteModel>(onsite);
-        }*/
+        /* public async Task<OnsiteModel> GetOnsiteByIdAsync(int id)
+         {
+             var onsite = await _context.Onsites.FindAsync(id);
+             return _mapper.Map<InforOnsiteModel>(onsite);
+         }*/
         public async Task<InforOnsiteModel> GetOnsiteByIdAsync(int id)
         {
             var onsite = await _context.Onsites
-                .Include(o => o.Employee)
-                .Include(a => a.Approver)               
+                .Include(o => o.Employee.Department)
+                .Include(a => a.Approver.Department)
                 .FirstOrDefaultAsync(o => o.OnsiteID == id);
             if (onsite == null)
             {
@@ -69,7 +69,16 @@ namespace ProjectFormOnsite.Repositories
                 _context.Onsites!.Update(updateOnsite);
                 await _context.SaveChangesAsync();
             }
+        }
 
+        public async Task ConfirmOnsiteAsync(int id, ConfirmModel model)
+        {
+            if (id == model.OnsiteID)
+            {
+                var updateOnsite = _mapper.Map<Onsite>(model);
+                _context.Onsites!.Update(updateOnsite);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

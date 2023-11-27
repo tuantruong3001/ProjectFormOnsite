@@ -27,6 +27,18 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllEmployee()
+        {
+            try
+            {
+                return Ok(await _employeeRepo.GetAllEmployeeAsync());
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> AddEmployee(EmployeeModel model)
         {
@@ -35,6 +47,36 @@ namespace ProjectFormOnsite.Controllers
                 var newEmployeeId = await _employeeRepo.AddEmployeeAsync(model);
                 var employee = await _employeeRepo.GetEmployeeByIdAsync(newEmployeeId);
                 return employee == null ? NotFound() : Ok(employee);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeeModel model)
+        {
+            try
+            {
+                if (id != model.EmployeeID)
+                {
+                    return NotFound();
+                }
+                await _employeeRepo.UpdateEmployeeAsync(id, model);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEmployee([FromRoute] int id)
+        {
+            try
+            {
+                await _employeeRepo.DeleteEmployeeAsync(id);
+                return Ok();
             }
             catch (Exception)
             {

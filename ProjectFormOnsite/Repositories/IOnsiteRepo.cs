@@ -9,5 +9,6 @@ namespace ProjectFormOnsite.Repositories
         public Task<int> AddOnsiteAsync(OnsiteModel model);
         public Task UpdateOnsiteAsync(int id, OnsiteModel model);
         public Task DeleteOnsiteAsync(int id);
+        public Task ConfirmOnsiteAsync(int id,ConfirmModel model);
     }
 }
