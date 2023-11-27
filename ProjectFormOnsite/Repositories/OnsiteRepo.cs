@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectFormOnsite.Data;
 using ProjectFormOnsite.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectFormOnsite.Repositories
 {
@@ -46,7 +49,7 @@ namespace ProjectFormOnsite.Repositories
             var onsite = await _context.Onsites
                 .Include(o => o.Employee!.Department)
                 .Include(a => a.Approver!.Department)
-                .FirstOrDefaultAsync(o => o.OnsiteID == id);            
+                .FirstOrDefaultAsync(o => o.OnsiteID == id);
             var onsiteModel = _mapper.Map<InforOnsiteModel>(onsite);
 
             return onsiteModel;
@@ -62,12 +65,23 @@ namespace ProjectFormOnsite.Repositories
             }
         }
 
-        public async Task ConfirmOnsiteAsync(int id, ConfirmModel model)
+        public async Task ConfirmOnsiteAsync(int id, JsonPatchDocument<ConfirmModel> patchDocument)
         {
-            if (id == model.OnsiteID)
+            var onsite = await _context.Onsites.FindAsync(id);
+            if (onsite != null)
             {
-                var updateOnsite = _mapper.Map<Onsite>(model);
-                _context.Onsites!.Update(updateOnsite);
+                var confirmModel = new ConfirmModel
+                {
+                    OnsiteID = onsite.OnsiteID,
+                    Status = onsite.Status,
+                    Detail = onsite.Detail,
+                    Reason = onsite.Reason
+                };
+                patchDocument.ApplyTo(confirmModel);
+                onsite.Status = confirmModel.Status;
+                onsite.Detail = confirmModel.Detail;
+                onsite.Reason = confirmModel.Reason;
+
                 await _context.SaveChangesAsync();
             }
         }

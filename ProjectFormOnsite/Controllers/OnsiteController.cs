@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectFormOnsite.Models;
 using ProjectFormOnsite.Repositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectFormOnsite.Controllers
 {
@@ -76,24 +79,21 @@ namespace ProjectFormOnsite.Controllers
         public async Task<IActionResult> DeleteOnsite([FromRoute] int id)
         {
             try
-            {               
+            {
                 await _onsiteRepo.DeleteOnsiteAsync(id);
                 return Ok();
             }
-            catch { 
+            catch
+            {
                 return NotFound();
-            }           
+            }
         }
-        [HttpPatch]
-        public async Task<IActionResult> ConfirmOnsite(int id, [FromBody] ConfirmModel model)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> ConfirmOnsiteAsync(int id, [FromBody] JsonPatchDocument<ConfirmModel> patchDoc)
         {
             try
             {
-                if (id != model.OnsiteID)
-                {
-                    return NotFound();
-                }
-                await _onsiteRepo.ConfirmOnsiteAsync(id, model);
+                await _onsiteRepo.ConfirmOnsiteAsync(id, patchDoc);
                 return Ok();
             }
             catch (Exception)
