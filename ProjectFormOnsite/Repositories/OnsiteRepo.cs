@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ProjectFormOnsite.Data;
-using ProjectFormOnsite.Models;
-using System.ComponentModel.DataAnnotations;
+using App.Domain.Entities;
+using App.API.Models;
+using App.DAL.Data;
+using App.Domain.Enum;
 
-namespace ProjectFormOnsite.Repositories
+namespace App.API.Repositories
 {
     public class OnsiteRepo : IOnsiteRepo
     {
@@ -21,11 +21,29 @@ namespace ProjectFormOnsite.Repositories
 
         public async Task<int> AddOnsiteAsync(OnsiteModel model)
         {
-            var newOnsite = _mapper.Map<Onsite>(model);
+            var newOnsite = _mapper.Map<Onsite>(model);         
             _context.Onsites!.Add(newOnsite);
             await _context.SaveChangesAsync();
 
             return newOnsite.OnsiteID;
+        }
+        public async Task<int> RegisterOnsiteAsync(OnsiteModel model)
+        {
+            var newOnsite = _mapper.Map<Onsite>(model);
+            var confirmModel = new OnsiteModel
+            {
+                Status = (int)StatusEnum.Progressing,
+                Detail = newOnsite.Detail,
+                Reason = newOnsite.Reason
+            };
+
+            _context.Onsites!.Add(newOnsite);
+            newOnsite.Status = confirmModel.Status;
+            newOnsite.Detail = confirmModel.Detail;
+            newOnsite.Reason = confirmModel.Reason;
+            await _context.SaveChangesAsync();
+
+            return confirmModel.OnsiteID;
         }
 
         public async Task DeleteOnsiteAsync(int id)

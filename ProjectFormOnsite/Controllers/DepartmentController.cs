@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ProjectFormOnsite.Models;
-using ProjectFormOnsite.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using App.API.Models;
+using App.API.Repositories;
 
 namespace ProjectFormOnsite.Controllers
 {
@@ -14,6 +13,21 @@ namespace ProjectFormOnsite.Controllers
         {
             _departmentRepo = repo;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllDepartment()
+        {
+            try
+            {
+                var department = await _departmentRepo.GetAllDepartmentAsync();
+                return Ok(department);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDepartmentById(int id)
         {
@@ -27,6 +41,7 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+        
         [HttpPost]
         public async Task<IActionResult> AddDepartment(DepartmentModel model)
         {
@@ -41,19 +56,7 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
-        [HttpGet]
-        public async Task<IActionResult> GetAllDepartment()
-        {
-            try
-            {
-                var department = await _departmentRepo.GetAllDepartmentAsync();
-                return Ok(department);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentModel model)
         {

@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ProjectFormOnsite.Models;
-using ProjectFormOnsite.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using App.API.Models;
+using App.API.Repositories;
 
 namespace ProjectFormOnsite.Controllers
 {
@@ -14,19 +13,7 @@ namespace ProjectFormOnsite.Controllers
         {
             _employeeRepo = repo;
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetEmployeeById(int id)
-        {
-            try
-            {
-                var employee = await _employeeRepo.GetEmployeeByIdAsync(id);
-                return employee == null ? NotFound() : Ok(employee);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllEmployee()
         {
@@ -40,8 +27,23 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEmployeeById(int id)
+        {
+            try
+            {
+                var employee = await _employeeRepo.GetEmployeeByIdAsync(id);
+                return employee == null ? NotFound() : Ok(employee);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
-        public async Task<IActionResult> AddEmployee(EmployeeModel model)
+        public async Task<IActionResult> AddEmployee(AddEmployeeModel model)
         {
             try
             {
@@ -54,6 +56,7 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeeModel model)
         {
@@ -71,6 +74,7 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee([FromRoute] int id)
         {
@@ -84,6 +88,6 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
-        
+
     }
 }

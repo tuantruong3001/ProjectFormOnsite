@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using ProjectFormOnsite.Data;
-using ProjectFormOnsite.Models;
+using App.API.Models;
+using App.Domain.Entities;
 
-namespace ProjectFormOnsite.Helpers
+namespace App.API.Helpers
 {
     public class DepartmentMapper : Profile
     {
-        public DepartmentMapper() {
+        public DepartmentMapper()
+        {
             CreateMap<Department, DepartmentModel>().ReverseMap();
         }
     }

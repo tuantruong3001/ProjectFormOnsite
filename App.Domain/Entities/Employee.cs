@@ -1,14 +1,20 @@
-﻿using App.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace App.API.Models
+namespace App.Domain.Entities
 {
-    public class EmployeeModel
+    [Table("Employee")]
+    public class Employee
     {
+        [Key]
         public int EmployeeID { get; set; }
-        [Required]
         public int DepartmentID { get; set; }
-        public string FullName { get; set; } = string.Empty;    
+        public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;

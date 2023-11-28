@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProjectFormOnsite.Models;
-using ProjectFormOnsite.Repositories;
-using System.ComponentModel.DataAnnotations;
+using App.API.Models;
+using App.API.Repositories;
 
-namespace ProjectFormOnsite.Controllers
+namespace App.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -31,6 +28,7 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOnsiteById(int id)
         {
@@ -44,6 +42,7 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> AddOnsite(OnsiteModel model)
         {
@@ -58,6 +57,7 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+
         [HttpPut]
         public async Task<IActionResult> UpdateOnsite(int id, [FromBody] OnsiteModel model)
         {
@@ -75,6 +75,7 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOnsite([FromRoute] int id)
         {
@@ -88,6 +89,7 @@ namespace ProjectFormOnsite.Controllers
                 return NotFound();
             }
         }
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> ConfirmOnsiteAsync(int id, [FromBody] JsonPatchDocument<ConfirmModel> patchDoc)
         {

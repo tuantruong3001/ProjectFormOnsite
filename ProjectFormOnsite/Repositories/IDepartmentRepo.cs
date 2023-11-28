@@ -1,6 +1,6 @@
-﻿using ProjectFormOnsite.Models;
+﻿using App.API.Models;
 
-namespace ProjectFormOnsite.Repositories
+namespace App.API.Repositories
 {
     public interface IDepartmentRepo
     {

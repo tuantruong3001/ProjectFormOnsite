@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using ProjectFormOnsite.Data;
-using ProjectFormOnsite.Models;
+using App.Domain.Entities;
+using App.API.Models;
+using App.DAL.Data;
 
-namespace ProjectFormOnsite.Repositories
+namespace App.API.Repositories
 {
     public class EmployeeRepo : IEmployeeRepo
     {
@@ -15,7 +16,7 @@ namespace ProjectFormOnsite.Repositories
             _context = context;
             _mapper = mapper;
         }
-        public async Task<int> AddEmployeeAsync(EmployeeModel model)
+        public async Task<int> AddEmployeeAsync(AddEmployeeModel model)
         {
             var newOnsite = _mapper.Map<Employee>(model);
             _context.Employees!.Add(newOnsite);

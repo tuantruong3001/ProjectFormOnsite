@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using ProjectFormOnsite.Data;
-using ProjectFormOnsite.Models;
+using App.Domain.Entities;
+using App.API.Models;
+using App.DAL.Data;
 
-namespace ProjectFormOnsite.Repositories
+namespace App.API.Repositories
 {
     public class DepartmentRepo : IDepartmentRepo
     {

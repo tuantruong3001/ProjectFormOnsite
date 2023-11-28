@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ProjectFormOnsite.Data;
-using ProjectFormOnsite.Repositories;
+using App.API.Repositories;
+using App.DAL.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

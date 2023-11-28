@@ -1,9 +1,18 @@
-﻿using App.Domain.Entities;
+﻿using System;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace App.API.Models
+namespace App.Domain.Entities
 {
-    public class InforOnsiteModel
+    [Table("Onsite")]
+    public class Onsite
     {
+        [Key]
         public int OnsiteID { get; set; }
         public int EmployeeID { get; set; }
         public int ApproverID { get; set; }
@@ -12,9 +21,8 @@ namespace App.API.Models
         public string EndDate { get; set; } = string.Empty;
         public int Status { get; set; }
         public string Detail { get; set; } = string.Empty;
-        public string Reason { get; set; } = string.Empty;       
+        public string Reason { get; set; } = string.Empty;
         public virtual Employee? Employee { get; set; }
-        public virtual Employee? Approver { get; set; }       
-    
+        public virtual Employee? Approver { get; set; }
     }
 }
