@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using App.API.Models;
-using App.API.Repositories;
+using App.Domain.Models;
+using App.Domain.Interfaces.IRepositories;
 
 namespace ProjectFormOnsite.Controllers
 {
@@ -14,7 +14,7 @@ namespace ProjectFormOnsite.Controllers
             _employeeRepo = repo;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllEmployee")]
         public async Task<IActionResult> GetAllEmployee()
         {
             try
@@ -28,7 +28,7 @@ namespace ProjectFormOnsite.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetEmployeeById{id}")]
         public async Task<IActionResult> GetEmployeeById(int id)
         {
             try
@@ -42,7 +42,7 @@ namespace ProjectFormOnsite.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("AddEmployee")]
         public async Task<IActionResult> AddEmployee(AddEmployeeModel model)
         {
             try
@@ -57,7 +57,7 @@ namespace ProjectFormOnsite.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("UpdateEmployee{id}")]
         public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeeModel model)
         {
             try
@@ -75,7 +75,7 @@ namespace ProjectFormOnsite.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteEmployee{id}")]
         public async Task<IActionResult> DeleteEmployee([FromRoute] int id)
         {
             try

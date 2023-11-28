@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using App.Domain.Entities;
-using App.API.Models;
+using App.Domain.Models;
 using App.DAL.Data;
+using App.Domain.Interfaces.IRepositories;
 
-namespace App.API.Repositories
+namespace App.DAL.Repositories
 {
     public class EmployeeRepo : IEmployeeRepo
     {

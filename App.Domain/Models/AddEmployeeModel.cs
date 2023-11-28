@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace App.API.Models
+namespace App.Domain.Models
 {
     public class AddEmployeeModel
     {

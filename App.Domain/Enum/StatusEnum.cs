@@ -9,7 +9,7 @@ namespace App.Domain.Enum
     public enum StatusEnum : int
     {
         Progressing = 0,
-        Reject = 1,
-        Confirm = 2,
+        Confirm = 1,
+        Reject = 2,
     }
 }

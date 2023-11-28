@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using App.API.Models;
-using App.API.Repositories;
+using App.Domain.Models;
+using App.Domain.Interfaces.IRepositories;
 
 namespace App.API.Controllers
 {
@@ -15,7 +15,7 @@ namespace App.API.Controllers
             _onsiteRepo = repo;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllOnsite")]
         public async Task<IActionResult> GetAllOnsite()
         {
             try
@@ -29,7 +29,7 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetOnsiteById{id}")]
         public async Task<IActionResult> GetOnsiteById(int id)
         {
             try
@@ -43,7 +43,7 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("AddOnsite")]
         public async Task<IActionResult> AddOnsite(OnsiteModel model)
         {
             try
@@ -58,7 +58,7 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("UpdateOnsite")]
         public async Task<IActionResult> UpdateOnsite(int id, [FromBody] OnsiteModel model)
         {
             try
@@ -76,7 +76,7 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteOnsite{id}")]
         public async Task<IActionResult> DeleteOnsite([FromRoute] int id)
         {
             try
@@ -90,13 +90,32 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("ConfirmOnsiteAsync{id}")]
         public async Task<IActionResult> ConfirmOnsiteAsync(int id, [FromBody] JsonPatchDocument<ConfirmModel> patchDoc)
         {
             try
             {
                 await _onsiteRepo.ConfirmOnsiteAsync(id, patchDoc);
                 return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("RegisterOnsite")]
+        public async Task<IActionResult> RegisterOnsite(RegisterOnsiteModel model)
+        {
+            try
+            {
+                if (model == null)
+                {
+                    return BadRequest();
+                }
+                var newOnsiteId = await _onsiteRepo.RegisterOnsiteAsync(model);
+
+                return Ok(model);
             }
             catch (Exception)
             {

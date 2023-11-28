@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using App.Domain.Entities;
-using App.API.Models;
+using App.Domain.Models;
 using App.DAL.Data;
 using App.Domain.Enum;
+using App.Domain.Interfaces.IRepositories;
 
-namespace App.API.Repositories
+namespace App.DAL.Repositories
 {
     public class OnsiteRepo : IOnsiteRepo
     {
@@ -21,31 +22,13 @@ namespace App.API.Repositories
 
         public async Task<int> AddOnsiteAsync(OnsiteModel model)
         {
-            var newOnsite = _mapper.Map<Onsite>(model);         
+            var newOnsite = _mapper.Map<Onsite>(model);
             _context.Onsites!.Add(newOnsite);
             await _context.SaveChangesAsync();
 
             return newOnsite.OnsiteID;
         }
-        public async Task<int> RegisterOnsiteAsync(OnsiteModel model)
-        {
-            var newOnsite = _mapper.Map<Onsite>(model);
-            var confirmModel = new OnsiteModel
-            {
-                Status = (int)StatusEnum.Progressing,
-                Detail = newOnsite.Detail,
-                Reason = newOnsite.Reason
-            };
-
-            _context.Onsites!.Add(newOnsite);
-            newOnsite.Status = confirmModel.Status;
-            newOnsite.Detail = confirmModel.Detail;
-            newOnsite.Reason = confirmModel.Reason;
-            await _context.SaveChangesAsync();
-
-            return confirmModel.OnsiteID;
-        }
-
+       
         public async Task DeleteOnsiteAsync(int id)
         {
             var deleteOnsite = _context.Onsites!.FirstOrDefault(a => a.OnsiteID == id);
@@ -102,6 +85,31 @@ namespace App.API.Repositories
 
                 await _context.SaveChangesAsync();
             }
+        }
+        public async Task<int> RegisterOnsiteAsync(RegisterOnsiteModel model)
+        {
+            var newOnsite = _mapper.Map<Onsite>(model);
+            var confirmModel = new RegisterOnsiteModel
+            {
+                Status = (int)StatusEnum.Progressing,
+                EmployeeID = model.EmployeeID,
+                Destination = model.Destination,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+                Detail = model.Detail
+            };
+            _context.Onsites!.Add(newOnsite);
+
+            newOnsite.Status = confirmModel.Status;
+            newOnsite.EmployeeID = confirmModel.EmployeeID;
+            newOnsite.Destination = confirmModel.Destination;
+            newOnsite.StartDate = confirmModel.StartDate;
+            newOnsite.EndDate = confirmModel.EndDate;
+            newOnsite.Detail = confirmModel.Detail;
+
+            await _context.SaveChangesAsync();
+
+            return newOnsite.OnsiteID;
         }
     }
 }

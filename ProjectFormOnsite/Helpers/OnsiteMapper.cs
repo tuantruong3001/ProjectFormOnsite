@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using App.API.Models;
+using App.Domain.Models;
 using App.Domain.Entities;
 
 namespace App.API.Helpers
@@ -12,6 +12,7 @@ namespace App.API.Helpers
             CreateMap<Onsite, InforOnsiteModel>().ReverseMap();
             CreateMap<Department, InforOnsiteModel>().ReverseMap();
             CreateMap<Onsite, ConfirmModel>().ReverseMap();
+            CreateMap<Onsite, RegisterOnsiteModel>().ReverseMap();
         }
     }
 }

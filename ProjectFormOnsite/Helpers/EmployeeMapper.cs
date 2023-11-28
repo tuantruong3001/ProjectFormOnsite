@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using App.API.Models;
+using App.Domain.Models;
 using App.Domain.Entities;
 
 namespace App.API.Helpers

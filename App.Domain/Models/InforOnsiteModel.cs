@@ -1,6 +1,6 @@
 ﻿using App.Domain.Entities;
 
-namespace App.API.Models
+namespace App.Domain.Models
 {
     public class InforOnsiteModel
     {

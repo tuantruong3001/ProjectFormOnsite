@@ -1,6 +1,6 @@
-﻿using App.API.Models;
+﻿using App.Domain.Models;
 
-namespace App.API.Repositories
+namespace App.Domain.Interfaces.IRepositories
 {
     public interface IEmployeeRepo
     {

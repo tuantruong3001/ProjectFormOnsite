@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using App.API.Repositories;
 using App.DAL.Data;
+using App.Domain.Interfaces.IRepositories;
+using App.DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
