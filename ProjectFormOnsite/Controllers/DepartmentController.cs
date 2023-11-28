@@ -2,7 +2,7 @@
 using App.Domain.Models;
 using App.Domain.Interfaces.IRepositories;
 
-namespace ProjectFormOnsite.Controllers
+namespace App.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -28,7 +28,7 @@ namespace ProjectFormOnsite.Controllers
             }
         }
 
-        [HttpGet("GetDepartmentById{id}")]
+        [HttpGet("GetDepartmentById/{id}")]
         public async Task<IActionResult> GetDepartmentById(int id)
         {
             try
@@ -42,12 +42,12 @@ namespace ProjectFormOnsite.Controllers
             }
         }
         
-        [HttpPost("AddDepartment")]
+        [HttpPost("CreateDepartment")]
         public async Task<IActionResult> AddDepartment(DepartmentModel model)
         {
             try
             {
-                var newDepartmentId = await _departmentRepo.AddDepartmentAsync(model);
+                var newDepartmentId = await _departmentRepo.CreateDepartmentAsync(model);
                 var department = await _departmentRepo.GetDepartmentByIdAsync(newDepartmentId);
                 return department == null ? NotFound() : Ok(department);
             }
@@ -57,7 +57,7 @@ namespace ProjectFormOnsite.Controllers
             }
         }
         
-        [HttpPut("UpdateDepartment{id}")]
+        [HttpPut("UpdateDepartment/{id}")]
         public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentModel model)
         {
             try
@@ -74,7 +74,7 @@ namespace ProjectFormOnsite.Controllers
                 return BadRequest();
             }
         }
-        [HttpDelete("DeleteDepartment{id}")]
+        [HttpDelete("DeleteDepartment/{id}")]
         public async Task<IActionResult> DeleteDepartment(int id)
         {
             try

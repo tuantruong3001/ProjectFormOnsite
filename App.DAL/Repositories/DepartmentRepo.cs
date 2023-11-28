@@ -7,44 +7,41 @@ using App.Domain.Interfaces.IRepositories;
 
 namespace App.DAL.Repositories
 {
-    public class DepartmentRepo : IDepartmentRepo
-    {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
+    public class DepartmentRepo : BaseRepository<Department, int>, IDepartmentRepo
 
-        public DepartmentRepo(DataContext context, IMapper mapper)
+    {
+        public DepartmentRepo(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
         {
-            _context = context;
-            _mapper = mapper;
+
         }
-        public async Task<int> AddDepartmentAsync(DepartmentModel model)
+        public async Task<int> CreateDepartmentAsync(DepartmentModel model)
         {
             var newOnsite = _mapper.Map<Department>(model);
-            _context.Departments!.Add(newOnsite);
-            await _context.SaveChangesAsync();
+            _dataContext.Departments!.Add(newOnsite);
+            await _dataContext.SaveChangesAsync();
 
             return newOnsite.DepartmentID;
         }
 
         public async Task DeleteDepartmentAsync(int id)
         {
-            var deleteDepartment = _context.Departments!.FirstOrDefault(a => a.DepartmentID == id);
+            var deleteDepartment = _dataContext.Departments!.FirstOrDefault(a => a.DepartmentID == id);
             if (deleteDepartment != null)
             {
-                _context.Departments.Remove(deleteDepartment);
-                await _context.SaveChangesAsync();
+                _dataContext.Departments.Remove(deleteDepartment);
+                await _dataContext.SaveChangesAsync();
             }
         }
 
         public async Task<List<DepartmentModel>> GetAllDepartmentAsync()
         {
-            var department = await _context.Departments!.ToListAsync();
+            var department = await _dataContext.Departments!.ToListAsync();
             return _mapper.Map<List<DepartmentModel>>(department);
         }
 
         public async Task<DepartmentModel> GetDepartmentByIdAsync(int id)
         {
-            var department = await _context.Departments.FindAsync(id);
+            var department = await _dataContext.Departments.FindAsync(id);
             return _mapper.Map<DepartmentModel>(department);
         }
 
@@ -53,8 +50,8 @@ namespace App.DAL.Repositories
             if (id == model.DepartmentID)
             {
                 var updateDepartment = _mapper.Map<Department>(model);
-                _context.Departments.Update(updateDepartment);
-                await _context.SaveChangesAsync();
+                _dataContext.Departments.Update(updateDepartment);
+                await _dataContext.SaveChangesAsync();
             }
         }
     }

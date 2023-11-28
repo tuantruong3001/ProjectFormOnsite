@@ -29,7 +29,7 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpGet("GetOnsiteById{id}")]
+        [HttpGet("GetOnsiteById/{id}")]
         public async Task<IActionResult> GetOnsiteById(int id)
         {
             try
@@ -48,7 +48,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var newOnsiteId = await _onsiteRepo.AddOnsiteAsync(model);
+                var newOnsiteId = await _onsiteRepo.CreateOnsiteAsync(model);
                 var onsite = await _onsiteRepo.GetOnsiteByIdAsync(newOnsiteId);
                 return onsite == null ? NotFound() : Ok(onsite);
             }
@@ -76,7 +76,7 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpDelete("DeleteOnsite{id}")]
+        [HttpDelete("DeleteOnsite/{id}")]
         public async Task<IActionResult> DeleteOnsite([FromRoute] int id)
         {
             try
@@ -90,7 +90,7 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpPatch("ConfirmOnsiteAsync{id}")]
+        [HttpPatch("ConfirmOnsiteAsync/{id}")]
         public async Task<IActionResult> ConfirmOnsiteAsync(int id, [FromBody] JsonPatchDocument<ConfirmModel> patchDoc)
         {
             try

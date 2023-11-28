@@ -6,7 +6,7 @@ namespace App.Domain.Interfaces.IRepositories
     {
         public Task<List<EmployeeModel>> GetAllEmployeeAsync();
         public Task<EmployeeModel> GetEmployeeByIdAsync(int id);
-        public Task<int> AddEmployeeAsync(AddEmployeeModel model);
+        public Task<int> CreateEmployeeAsync(AddEmployeeModel model);
         public Task UpdateEmployeeAsync(int id, EmployeeModel model);
         public Task DeleteEmployeeAsync(int id);
     }

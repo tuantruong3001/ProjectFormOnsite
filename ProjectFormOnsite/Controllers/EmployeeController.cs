@@ -2,7 +2,7 @@
 using App.Domain.Models;
 using App.Domain.Interfaces.IRepositories;
 
-namespace ProjectFormOnsite.Controllers
+namespace App.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -28,7 +28,7 @@ namespace ProjectFormOnsite.Controllers
             }
         }
 
-        [HttpGet("GetEmployeeById{id}")]
+        [HttpGet("GetEmployeeById/{id}")]
         public async Task<IActionResult> GetEmployeeById(int id)
         {
             try
@@ -47,7 +47,7 @@ namespace ProjectFormOnsite.Controllers
         {
             try
             {
-                var newEmployeeId = await _employeeRepo.AddEmployeeAsync(model);
+                var newEmployeeId = await _employeeRepo.CreateEmployeeAsync(model);
                 var employee = await _employeeRepo.GetEmployeeByIdAsync(newEmployeeId);
                 return employee == null ? NotFound() : Ok(employee);
             }
@@ -57,7 +57,7 @@ namespace ProjectFormOnsite.Controllers
             }
         }
 
-        [HttpPut("UpdateEmployee{id}")]
+        [HttpPut("UpdateEmployee/{id}")]
         public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeeModel model)
         {
             try
@@ -75,7 +75,7 @@ namespace ProjectFormOnsite.Controllers
             }
         }
 
-        [HttpDelete("DeleteEmployee{id}")]
+        [HttpDelete("DeleteEmployee/{id}")]
         public async Task<IActionResult> DeleteEmployee([FromRoute] int id)
         {
             try

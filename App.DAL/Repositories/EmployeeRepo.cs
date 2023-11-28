@@ -7,37 +7,33 @@ using App.Domain.Interfaces.IRepositories;
 
 namespace App.DAL.Repositories
 {
-    public class EmployeeRepo : IEmployeeRepo
+    public class EmployeeRepo : BaseRepository<Employee, int>, IEmployeeRepo
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
-
-        public EmployeeRepo(DataContext context, IMapper mapper)
+        public EmployeeRepo(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
         {
-            _context = context;
-            _mapper = mapper;
+
         }
-        public async Task<int> AddEmployeeAsync(AddEmployeeModel model)
+        public async Task<int> CreateEmployeeAsync(AddEmployeeModel model)
         {
             var newOnsite = _mapper.Map<Employee>(model);
-            _context.Employees!.Add(newOnsite);
-            await _context.SaveChangesAsync();
+            _dataContext.Employees!.Add(newOnsite);
+            await _dataContext.SaveChangesAsync();
 
             return newOnsite.EmployeeID;
         }
         public async Task DeleteEmployeeAsync(int id)
         {
-            var deleteEmployee = _context.Employees!.FirstOrDefault(a => a.EmployeeID == id);
+            var deleteEmployee = _dataContext.Employees!.FirstOrDefault(a => a.EmployeeID == id);
             if (deleteEmployee != null)
             {
-                _context.Employees.Remove(deleteEmployee);
-                await _context.SaveChangesAsync();
+                _dataContext.Employees.Remove(deleteEmployee);
+                await _dataContext.SaveChangesAsync();
             }
         }
 
         public async Task<List<EmployeeModel>> GetAllEmployeeAsync()
         {
-            var employee = await _context.Employees
+            var employee = await _dataContext.Employees
                 .Include(a => a.Department)
                 .ToListAsync();
 
@@ -46,10 +42,10 @@ namespace App.DAL.Repositories
 
         public async Task<EmployeeModel> GetEmployeeByIdAsync(int id)
         {
-            var employee = await _context.Employees
+            var employee = await _dataContext.Employees
                 .Include(a => a.Department)
-                .FirstOrDefaultAsync(o => o.EmployeeID == id);   
-            
+                .FirstOrDefaultAsync(o => o.EmployeeID == id);
+
             return _mapper.Map<EmployeeModel>(employee);
         }
 
@@ -58,8 +54,8 @@ namespace App.DAL.Repositories
             if (id == model.EmployeeID)
             {
                 var updateEmployee = _mapper.Map<Employee>(model);
-                _context.Employees!.Update(updateEmployee);
-                await _context.SaveChangesAsync();
+                _dataContext.Employees!.Update(updateEmployee);
+                await _dataContext.SaveChangesAsync();
             }
         }
     }

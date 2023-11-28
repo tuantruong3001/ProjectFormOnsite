@@ -9,45 +9,41 @@ using App.Domain.Interfaces.IRepositories;
 
 namespace App.DAL.Repositories
 {
-    public class OnsiteRepo : IOnsiteRepo
+    public class OnsiteRepo : BaseRepository<Onsite, int>, IOnsiteRepo
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
-
-        public OnsiteRepo(DataContext context, IMapper mapper)
+        public OnsiteRepo(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
         {
-            _context = context;
-            _mapper = mapper;
+
         }
 
-        public async Task<int> AddOnsiteAsync(OnsiteModel model)
+        public async Task<int> CreateOnsiteAsync(OnsiteModel model)
         {
             var newOnsite = _mapper.Map<Onsite>(model);
-            _context.Onsites!.Add(newOnsite);
-            await _context.SaveChangesAsync();
+            _dataContext.Onsites!.Add(newOnsite);
+            await _dataContext.SaveChangesAsync();
 
             return newOnsite.OnsiteID;
         }
-       
+
         public async Task DeleteOnsiteAsync(int id)
         {
-            var deleteOnsite = _context.Onsites!.FirstOrDefault(a => a.OnsiteID == id);
+            var deleteOnsite = _dataContext.Onsites!.FirstOrDefault(a => a.OnsiteID == id);
             if (deleteOnsite != null)
             {
-                _context.Onsites!.Remove(deleteOnsite);
-                await _context.SaveChangesAsync();
+                _dataContext.Onsites!.Remove(deleteOnsite);
+                await _dataContext.SaveChangesAsync();
             }
         }
 
         public async Task<List<OnsiteModel>> GetAllOnsiteAsync()
         {
-            var onsite = await _context.Onsites.ToListAsync();
+            var onsite = await _dataContext.Onsites.ToListAsync();
             return _mapper.Map<List<OnsiteModel>>(onsite);
         }
 
         public async Task<InforOnsiteModel> GetOnsiteByIdAsync(int id)
         {
-            var onsite = await _context.Onsites
+            var onsite = await _dataContext.Onsites
                 .Include(o => o.Employee!.Department)
                 .Include(a => a.Approver!.Department)
                 .FirstOrDefaultAsync(o => o.OnsiteID == id);
@@ -61,14 +57,14 @@ namespace App.DAL.Repositories
             if (id == model.OnsiteID)
             {
                 var updateOnsite = _mapper.Map<Onsite>(model);
-                _context.Onsites!.Update(updateOnsite);
-                await _context.SaveChangesAsync();
+                _dataContext.Onsites!.Update(updateOnsite);
+                await _dataContext.SaveChangesAsync();
             }
         }
 
         public async Task ConfirmOnsiteAsync(int id, JsonPatchDocument<ConfirmModel> patchDocument)
         {
-            var onsite = await _context.Onsites.FindAsync(id);
+            var onsite = await _dataContext.Onsites.FindAsync(id);
             if (onsite != null)
             {
                 var confirmModel = new ConfirmModel
@@ -83,7 +79,7 @@ namespace App.DAL.Repositories
                 onsite.Detail = confirmModel.Detail;
                 onsite.Reason = confirmModel.Reason;
 
-                await _context.SaveChangesAsync();
+                await _dataContext.SaveChangesAsync();
             }
         }
         public async Task<int> RegisterOnsiteAsync(RegisterOnsiteModel model)
@@ -98,7 +94,7 @@ namespace App.DAL.Repositories
                 EndDate = model.EndDate,
                 Detail = model.Detail
             };
-            _context.Onsites!.Add(newOnsite);
+            _dataContext.Onsites!.Add(newOnsite);
 
             newOnsite.Status = confirmModel.Status;
             newOnsite.EmployeeID = confirmModel.EmployeeID;
@@ -107,7 +103,7 @@ namespace App.DAL.Repositories
             newOnsite.EndDate = confirmModel.EndDate;
             newOnsite.Detail = confirmModel.Detail;
 
-            await _context.SaveChangesAsync();
+            await _dataContext.SaveChangesAsync();
 
             return newOnsite.OnsiteID;
         }
