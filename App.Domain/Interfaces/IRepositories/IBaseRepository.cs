@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace App.Domain.Interfaces.IRepositories
+﻿namespace App.Domain.Interfaces.IRepositories
 {
-    public interface IBaseRepository<T, K>
+    public interface IBaseRepository<T, K> where T : class
     {
         public Task<IEnumerable<T>> GetAllAsync();
-        public Task<T> GetByIdAsync(K k);
-        public Task<K> CreateAsync(T t);
-        public Task<K> UpdateAsync(T t, K k);
-        public Task<K> DeleteAsync(K k);
+        public Task<T> GetByIdAsync(K id);
+        public Task<T> CreateAsync(T model);
+        public Task<T> UpdateAsync(T model, K id);
+        public Task DeleteAsync(K id);
     }
 }

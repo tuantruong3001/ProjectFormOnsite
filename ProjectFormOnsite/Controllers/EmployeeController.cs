@@ -42,7 +42,7 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpPost("AddEmployee")]
+        [HttpPost("CreateEmployee")]
         public async Task<IActionResult> AddEmployee(AddEmployeeModel model)
         {
             try

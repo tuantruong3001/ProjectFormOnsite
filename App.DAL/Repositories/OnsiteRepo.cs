@@ -15,14 +15,11 @@ namespace App.DAL.Repositories
         {
 
         }
-
         public async Task<int> CreateOnsiteAsync(OnsiteModel model)
         {
-            var newOnsite = _mapper.Map<Onsite>(model);
-            _dataContext.Onsites!.Add(newOnsite);
-            await _dataContext.SaveChangesAsync();
-
-            return newOnsite.OnsiteID;
+            var onsiteEntity = _mapper.Map<Onsite>(model);
+            var createdOnsite = await CreateAsync(onsiteEntity);
+            return createdOnsite.OnsiteID;
         }
 
         public async Task DeleteOnsiteAsync(int id)

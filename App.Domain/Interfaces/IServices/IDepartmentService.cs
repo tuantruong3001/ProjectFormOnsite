@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Interfaces.IServices
 {
-    public interface IBaseService
+    public interface IDepartmentService
     {
-
     }
 }

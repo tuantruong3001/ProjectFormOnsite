@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Interfaces.IServices
+namespace App.Application.Services
 {
-    public interface IBaseService
+    public class DepartmentService
     {
+
+
 
     }
 }

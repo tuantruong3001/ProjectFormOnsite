@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using App.Domain.Models;
 using App.Domain.Interfaces.IRepositories;
+using App.Domain.Entities;
+using AutoMapper;
 
 namespace App.API.Controllers
 {
@@ -9,9 +11,12 @@ namespace App.API.Controllers
     public class DepartmentController : ControllerBase
     {
         private readonly IDepartmentRepo _departmentRepo;
-        public DepartmentController(IDepartmentRepo repo)
+        private readonly IMapper _mapper;
+
+        public DepartmentController(IDepartmentRepo repo, IMapper mapper)
         {
             _departmentRepo = repo;
+            _mapper = mapper;
         }
 
         [HttpGet("GetAllDepartment")]
@@ -19,7 +24,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var department = await _departmentRepo.GetAllDepartmentAsync();
+                var department = await _departmentRepo.GetAllAsync();
                 return Ok(department);
             }
             catch (Exception)
@@ -33,7 +38,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var department = await _departmentRepo.GetDepartmentByIdAsync(id);
+                var department = await _departmentRepo.GetByIdAsync(id);
                 return department == null ? NotFound() : Ok(department);
             }
             catch (Exception)
@@ -41,24 +46,24 @@ namespace App.API.Controllers
                 return BadRequest();
             }
         }
-        
+
         [HttpPost("CreateDepartment")]
-        public async Task<IActionResult> AddDepartment(DepartmentModel model)
+        public async Task<IActionResult> CreateDepartment(DepartmentModel model)
         {
             try
             {
-                var newDepartmentId = await _departmentRepo.CreateDepartmentAsync(model);
-                var department = await _departmentRepo.GetDepartmentByIdAsync(newDepartmentId);
-                return department == null ? NotFound() : Ok(department);
+                var departmentEntity = _mapper.Map<Department>(model);
+                var newDepartmentId = await _departmentRepo.CreateAsync(departmentEntity);
+                return Ok(newDepartmentId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
-        
+
         [HttpPut("UpdateDepartment/{id}")]
-        public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentModel model)
+        public async Task<IActionResult> UpdateDepartment([FromBody] DepartmentModel model, int id)
         {
             try
             {
@@ -66,7 +71,9 @@ namespace App.API.Controllers
                 {
                     return NotFound();
                 }
-                await _departmentRepo.UpdateDepartmentAsync(id, model);
+                var departmentEntity = _mapper.Map<Department>(model);
+                departmentEntity.DepartmentID = 6;
+                var updateDepartment = await _departmentRepo.UpdateAsync(departmentEntity, id);
                 return Ok();
             }
             catch (Exception)
@@ -79,7 +86,7 @@ namespace App.API.Controllers
         {
             try
             {
-                await _departmentRepo.DeleteDepartmentAsync(id);
+                await _departmentRepo.DeleteAsync(id);
                 return Ok();
             }
             catch (Exception)

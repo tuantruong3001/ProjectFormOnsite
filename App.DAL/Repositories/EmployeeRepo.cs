@@ -15,11 +15,9 @@ namespace App.DAL.Repositories
         }
         public async Task<int> CreateEmployeeAsync(AddEmployeeModel model)
         {
-            var newOnsite = _mapper.Map<Employee>(model);
-            _dataContext.Employees!.Add(newOnsite);
-            await _dataContext.SaveChangesAsync();
-
-            return newOnsite.EmployeeID;
+            var employeeEntity = _mapper.Map<Employee>(model);
+            var createdEmployee = await CreateAsync(employeeEntity);
+            return createdEmployee.EmployeeID;
         }
         public async Task DeleteEmployeeAsync(int id)
         {

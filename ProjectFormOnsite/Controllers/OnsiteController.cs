@@ -43,7 +43,7 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpPost("AddOnsite")]
+        [HttpPost("CreateOnsite")]
         public async Task<IActionResult> AddOnsite(OnsiteModel model)
         {
             try
