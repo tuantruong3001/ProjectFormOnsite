@@ -9,7 +9,5 @@ namespace App.Application.Services
     public class DepartmentService
     {
 
-
-
     }
 }

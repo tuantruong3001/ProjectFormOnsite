@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using App.Domain.Models;
 using App.Domain.Interfaces.IRepositories;
+using AutoMapper;
+using App.Domain.Entities;
+using App.Domain.Interfaces.IServices;
 
 namespace App.API.Controllers
 {
@@ -9,9 +12,11 @@ namespace App.API.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeRepo _employeeRepo;
-        public EmployeeController(IEmployeeRepo repo)
+        private readonly IMapper _mapper;
+        public EmployeeController(IEmployeeRepo repo, IMapper mapper)
         {
             _employeeRepo = repo;
+            _mapper = mapper;
         }
 
         [HttpGet("GetAllEmployee")]
@@ -33,7 +38,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var employee = await _employeeRepo.GetEmployeeByIdAsync(id);
+                var employee = await _employeeRepo.GetByIdAsync(id);
                 return employee == null ? NotFound() : Ok(employee);
             }
             catch (Exception)
@@ -43,13 +48,13 @@ namespace App.API.Controllers
         }
 
         [HttpPost("CreateEmployee")]
-        public async Task<IActionResult> AddEmployee(AddEmployeeModel model)
+        public async Task<IActionResult> CreateEmployee(AddEmployeeModel model)
         {
             try
             {
-                var newEmployeeId = await _employeeRepo.CreateEmployeeAsync(model);
-                var employee = await _employeeRepo.GetEmployeeByIdAsync(newEmployeeId);
-                return employee == null ? NotFound() : Ok(employee);
+                var employeeEntity = _mapper.Map<Employee>(model);
+                var newEmployeeId = await _employeeRepo.CreateAsync(employeeEntity);
+                return employeeEntity == null ? NotFound() : Ok(employeeEntity);
             }
             catch (Exception)
             {
@@ -57,17 +62,14 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpPut("UpdateEmployee/{id}")]
-        public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeeModel model)
+        [HttpPut("UpdateEmployee")]
+        public async Task<IActionResult> UpdateEmployee([FromBody] AddEmployeeModel model)
         {
             try
             {
-                if (id != model.EmployeeID)
-                {
-                    return NotFound();
-                }
-                await _employeeRepo.UpdateEmployeeAsync(id, model);
-                return Ok();
+                var employeeEntity = _mapper.Map<Employee>(model);
+                await _employeeRepo.UpdateAsync(employeeEntity);
+                return Ok(employeeEntity);
             }
             catch (Exception)
             {
@@ -80,7 +82,7 @@ namespace App.API.Controllers
         {
             try
             {
-                await _employeeRepo.DeleteEmployeeAsync(id);
+                await _employeeRepo.DeleteAsync(id);
                 return Ok();
             }
             catch (Exception)

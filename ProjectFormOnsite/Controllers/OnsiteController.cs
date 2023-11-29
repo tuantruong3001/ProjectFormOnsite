@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using App.Domain.Models;
 using App.Domain.Interfaces.IRepositories;
+using AutoMapper;
+using App.Domain.Entities;
 
 namespace App.API.Controllers
 {
@@ -10,9 +12,11 @@ namespace App.API.Controllers
     public class OnsiteController : ControllerBase
     {
         private readonly IOnsiteRepo _onsiteRepo;
-        public OnsiteController(IOnsiteRepo repo)
+        private readonly IMapper _mapper;
+        public OnsiteController(IOnsiteRepo repo,IMapper mapper)
         {
             _onsiteRepo = repo;
+            _mapper = mapper;
         }
 
         [HttpGet("GetAllOnsite")]
@@ -44,13 +48,13 @@ namespace App.API.Controllers
         }
 
         [HttpPost("CreateOnsite")]
-        public async Task<IActionResult> AddOnsite(OnsiteModel model)
+        public async Task<IActionResult> CreateOnsite(OnsiteModel model)
         {
             try
             {
-                var newOnsiteId = await _onsiteRepo.CreateOnsiteAsync(model);
-                var onsite = await _onsiteRepo.GetOnsiteByIdAsync(newOnsiteId);
-                return onsite == null ? NotFound() : Ok(onsite);
+                var onsiteEntity = _mapper.Map<Onsite>(model);
+                var newOnsiteId = await _onsiteRepo.CreateAsync(onsiteEntity);
+                return newOnsiteId == null ? NotFound() : Ok(newOnsiteId);
             }
             catch (Exception)
             {
@@ -59,16 +63,13 @@ namespace App.API.Controllers
         }
 
         [HttpPut("UpdateOnsite")]
-        public async Task<IActionResult> UpdateOnsite(int id, [FromBody] OnsiteModel model)
+        public async Task<IActionResult> UpdateOnsite([FromBody] OnsiteModel model)
         {
             try
             {
-                if (id != model.OnsiteID)
-                {
-                    return NotFound();
-                }
-                await _onsiteRepo.UpdateOnsiteAsync(id, model);
-                return Ok();
+                var onsiteEntity = _mapper.Map<Onsite>(model);
+                await _onsiteRepo.UpdateAsync(onsiteEntity);
+                return Ok(onsiteEntity);
             }
             catch (Exception)
             {
@@ -81,7 +82,7 @@ namespace App.API.Controllers
         {
             try
             {
-                await _onsiteRepo.DeleteOnsiteAsync(id);
+                await _onsiteRepo.DeleteAsync(id);
                 return Ok();
             }
             catch

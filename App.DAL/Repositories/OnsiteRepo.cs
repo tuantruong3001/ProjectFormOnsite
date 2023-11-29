@@ -15,22 +15,6 @@ namespace App.DAL.Repositories
         {
 
         }
-        public async Task<int> CreateOnsiteAsync(OnsiteModel model)
-        {
-            var onsiteEntity = _mapper.Map<Onsite>(model);
-            var createdOnsite = await CreateAsync(onsiteEntity);
-            return createdOnsite.OnsiteID;
-        }
-
-        public async Task DeleteOnsiteAsync(int id)
-        {
-            var deleteOnsite = _dataContext.Onsites!.FirstOrDefault(a => a.OnsiteID == id);
-            if (deleteOnsite != null)
-            {
-                _dataContext.Onsites!.Remove(deleteOnsite);
-                await _dataContext.SaveChangesAsync();
-            }
-        }
 
         public async Task<List<OnsiteModel>> GetAllOnsiteAsync()
         {
@@ -47,16 +31,6 @@ namespace App.DAL.Repositories
             var onsiteModel = _mapper.Map<InforOnsiteModel>(onsite);
 
             return onsiteModel;
-        }
-
-        public async Task UpdateOnsiteAsync(int id, OnsiteModel model)
-        {
-            if (id == model.OnsiteID)
-            {
-                var updateOnsite = _mapper.Map<Onsite>(model);
-                _dataContext.Onsites!.Update(updateOnsite);
-                await _dataContext.SaveChangesAsync();
-            }
         }
 
         public async Task ConfirmOnsiteAsync(int id, JsonPatchDocument<ConfirmModel> patchDocument)

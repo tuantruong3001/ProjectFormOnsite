@@ -62,18 +62,13 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpPut("UpdateDepartment/{id}")]
-        public async Task<IActionResult> UpdateDepartment([FromBody] DepartmentModel model, int id)
+        [HttpPut("UpdateDepartment")]
+        public async Task<IActionResult> UpdateDepartment([FromBody] DepartmentModel model)
         {
             try
-            {
-                if (id != model.DepartmentID)
-                {
-                    return NotFound();
-                }
+            {               
                 var departmentEntity = _mapper.Map<Department>(model);
-                departmentEntity.DepartmentID = 6;
-                var updateDepartment = await _departmentRepo.UpdateAsync(departmentEntity, id);
+                var updateDepartment = await _departmentRepo.UpdateAsync(departmentEntity);
                 return Ok();
             }
             catch (Exception)

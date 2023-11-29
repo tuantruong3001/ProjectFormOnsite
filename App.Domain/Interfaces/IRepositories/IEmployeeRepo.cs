@@ -1,13 +1,11 @@
-﻿using App.Domain.Models;
+﻿using App.Domain.Entities;
+using App.Domain.Models;
 
 namespace App.Domain.Interfaces.IRepositories
 {
-    public interface IEmployeeRepo
+    public interface IEmployeeRepo : IBaseRepository<Employee, int>
     {
         public Task<List<EmployeeModel>> GetAllEmployeeAsync();
-        public Task<EmployeeModel> GetEmployeeByIdAsync(int id);
-        public Task<int> CreateEmployeeAsync(AddEmployeeModel model);
-        public Task UpdateEmployeeAsync(int id, EmployeeModel model);
-        public Task DeleteEmployeeAsync(int id);
+        public Task<EmployeeModel> GetEmployeeByIdAsync(int id);       
     }
 }

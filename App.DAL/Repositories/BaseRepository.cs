@@ -26,12 +26,11 @@ namespace App.DAL.Repositories
             _mapper = mapper;
         }
 
-        public async Task<T> CreateAsync(T model)
+        public async Task<T> CreateAsync(T entity)
         {
-            var result = _mapper.Map<T>(model);
-            _dbSet.Add(result);
+            _dbSet.Add(entity);
             await _dataContext.SaveChangesAsync();
-            return result;
+            return entity;
         }
 
         public async Task DeleteAsync(K id)
@@ -56,9 +55,9 @@ namespace App.DAL.Repositories
             return result!;
         }
 
-        public async Task<T> UpdateAsync(T model, K id)
+        public async Task<T> UpdateAsync(T entity)
         {
-            var entry = _dbSet.Update(model);
+            var entry = _dbSet.Update(entity);
             await _dataContext.SaveChangesAsync();
             return entry.Entity;
         }
