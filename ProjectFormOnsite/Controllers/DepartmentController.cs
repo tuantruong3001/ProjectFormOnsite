@@ -3,6 +3,7 @@ using App.Domain.Models;
 using App.Domain.Interfaces.IRepositories;
 using App.Domain.Entities;
 using AutoMapper;
+using App.Domain.Interfaces.IServices;
 
 namespace App.API.Controllers
 {
@@ -12,11 +13,13 @@ namespace App.API.Controllers
     {
         private readonly IDepartmentRepo _departmentRepo;
         private readonly IMapper _mapper;
+        private readonly IDepartmentService _departmentService;
 
-        public DepartmentController(IDepartmentRepo repo, IMapper mapper)
+        public DepartmentController(IDepartmentRepo repo, IMapper mapper, IDepartmentService departmentService)
         {
             _departmentRepo = repo;
             _mapper = mapper;
+            _departmentService = departmentService;
         }
 
         [HttpGet("GetAllDepartment")]
