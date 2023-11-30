@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using App.DAL.Data;
 using App.Domain.Interfaces.IRepositories;
 using App.DAL.Repositories;
+using App.Domain.Interfaces.IServices;
+using App.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,9 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IOnsiteRepo, OnsiteRepo>();
 builder.Services.AddScoped<IDepartmentRepo, DepartmentRepo>();
 builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IOnsiteService, OnsiteService>();
 
 var app = builder.Build();
 

@@ -1,15 +1,7 @@
 ﻿using App.DAL.Data;
-using App.Domain.Entities;
 using App.Domain.Interfaces.IRepositories;
-using App.Domain.Models;
 using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace App.DAL.Repositories
 {

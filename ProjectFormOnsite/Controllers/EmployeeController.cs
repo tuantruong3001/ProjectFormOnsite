@@ -13,10 +13,12 @@ namespace App.API.Controllers
     {
         private readonly IEmployeeRepo _employeeRepo;
         private readonly IMapper _mapper;
-        public EmployeeController(IEmployeeRepo repo, IMapper mapper)
+        private readonly IEmployeeService _employeeService;
+        public EmployeeController(IEmployeeRepo repo, IMapper mapper, IEmployeeService employeeService)
         {
             _employeeRepo = repo;
             _mapper = mapper;
+            _employeeService = employeeService;
         }
 
         [HttpGet("GetAllEmployee")]
@@ -24,7 +26,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var employee = await _employeeRepo.GetAllEmployeeAsync();
+                var employee = await _employeeService.GetAllEmployeeAsync();
                 return Ok(employee);
             }
             catch (Exception)
@@ -38,7 +40,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var employee = await _employeeRepo.GetByIdAsync(id);
+                var employee = await _employeeService.GetEmployeeByIdAsync(id);
                 return employee == null ? NotFound() : Ok(employee);
             }
             catch (Exception)

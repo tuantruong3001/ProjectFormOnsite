@@ -12,9 +12,9 @@ namespace App.Domain.Models
         public string EndDate { get; set; } = string.Empty;
         public int Status { get; set; }
         public string Detail { get; set; } = string.Empty;
-        public string Reason { get; set; } = string.Empty;       
+        public string Reason { get; set; } = string.Empty;
         public virtual Employee? Employee { get; set; }
-        public virtual Employee? Approver { get; set; }       
-    
+        public virtual Employee? Approver { get; set; }
+
     }
 }

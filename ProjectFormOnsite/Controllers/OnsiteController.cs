@@ -4,6 +4,7 @@ using App.Domain.Models;
 using App.Domain.Interfaces.IRepositories;
 using AutoMapper;
 using App.Domain.Entities;
+using App.Domain.Interfaces.IServices;
 
 namespace App.API.Controllers
 {
@@ -13,10 +14,12 @@ namespace App.API.Controllers
     {
         private readonly IOnsiteRepo _onsiteRepo;
         private readonly IMapper _mapper;
-        public OnsiteController(IOnsiteRepo repo,IMapper mapper)
+        private readonly IOnsiteService _onsiteService;
+        public OnsiteController(IOnsiteRepo repo,IMapper mapper, IOnsiteService onsiteService)
         {
             _onsiteRepo = repo;
             _mapper = mapper;
+            _onsiteService = onsiteService;
         }
 
         [HttpGet("GetAllOnsite")]
@@ -38,7 +41,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var onsite = await _onsiteRepo.GetOnsiteByIdAsync(id);
+                var onsite = await _onsiteService.GetOnsiteByIdAsync(id);
                 return onsite == null ? NotFound() : Ok(onsite);
             }
             catch (Exception)
@@ -96,7 +99,7 @@ namespace App.API.Controllers
         {
             try
             {
-                await _onsiteRepo.ConfirmOnsiteAsync(id, patchDoc);
+                await _onsiteService.ConfirmOnsiteAsync(id, patchDoc);
                 return Ok();
             }
             catch (Exception)
@@ -114,7 +117,7 @@ namespace App.API.Controllers
                 {
                     return BadRequest();
                 }
-                var newOnsiteId = await _onsiteRepo.RegisterOnsiteAsync(model);
+                var newOnsiteId = await _onsiteService.RegisterOnsiteAsync(model);
 
                 return Ok(model);
             }
