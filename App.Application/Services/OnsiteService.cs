@@ -40,7 +40,6 @@ namespace App.Application.Services
             {
                 var confirmModel = new ConfirmModel
                 {
-                    OnsiteID = onsite.OnsiteID,
                     Status = onsite.Status,
                     Detail = onsite.Detail,
                     Reason = onsite.Reason
@@ -58,7 +57,6 @@ namespace App.Application.Services
             var newOnsite = _mapper.Map<Onsite>(model);
             var confirmModel = new RegisterOnsiteModel
             {
-                Status = (int)StatusEnum.Progressing,
                 EmployeeID = model.EmployeeID,
                 Destination = model.Destination,
                 StartDate = model.StartDate,
@@ -67,7 +65,7 @@ namespace App.Application.Services
             };
             _dataContext.Onsites!.Add(newOnsite);
 
-            newOnsite.Status = confirmModel.Status;
+            newOnsite.Status = (int)StatusEnum.Progressing;
             newOnsite.EmployeeID = confirmModel.EmployeeID;
             newOnsite.Destination = confirmModel.Destination;
             newOnsite.StartDate = confirmModel.StartDate;

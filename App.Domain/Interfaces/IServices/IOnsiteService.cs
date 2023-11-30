@@ -9,6 +9,6 @@ namespace App.Domain.Interfaces.IServices
         public Task<List<OnsiteModel>> GetAllOnsiteAsync();
         public Task<InforOnsiteModel> GetOnsiteByIdAsync(int id);
         public Task<int> RegisterOnsiteAsync(RegisterOnsiteModel model);
-        public Task ConfirmOnsiteAsync(int id, JsonPatchDocument<ConfirmModel> model);
+        public Task ConfirmOnsiteAsync(int id,JsonPatchDocument<ConfirmModel> model);
     }
 }
