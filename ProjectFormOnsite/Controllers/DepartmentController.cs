@@ -11,13 +11,11 @@ namespace App.API.Controllers
     [ApiController]
     public class DepartmentController : ControllerBase
     {
-        private readonly IDepartmentRepo _departmentRepo;
         private readonly IMapper _mapper;
         private readonly IDepartmentService _departmentService;
 
-        public DepartmentController(IDepartmentRepo repo, IMapper mapper, IDepartmentService departmentService)
+        public DepartmentController(IMapper mapper, IDepartmentService departmentService)
         {
-            _departmentRepo = repo;
             _mapper = mapper;
             _departmentService = departmentService;
         }
@@ -27,7 +25,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var department = await _departmentRepo.GetAllAsync();
+                var department = await _departmentService.GetAllAsync();
                 return Ok(department);
             }
             catch (Exception)
@@ -41,7 +39,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var department = await _departmentRepo.GetByIdAsync(id);
+                var department = await _departmentService.GetByIdAsync(id);
                 return department == null ? NotFound() : Ok(department);
             }
             catch (Exception)
@@ -51,12 +49,11 @@ namespace App.API.Controllers
         }
 
         [HttpPost("CreateDepartment")]
-        public async Task<IActionResult> CreateDepartment(DepartmentModel model)
+        public async Task<IActionResult> CreateDepartment(Department model)
         {
             try
             {
-                var departmentEntity = _mapper.Map<Department>(model);
-                var newDepartmentId = await _departmentRepo.CreateAsync(departmentEntity);
+                var newDepartmentId = await _departmentService.CreateAsync(model);
                 return Ok(newDepartmentId);
             }
             catch (Exception ex)
@@ -66,12 +63,11 @@ namespace App.API.Controllers
         }
 
         [HttpPut("UpdateDepartment")]
-        public async Task<IActionResult> UpdateDepartment([FromBody] DepartmentModel model)
+        public async Task<IActionResult> UpdateDepartment([FromBody] Department model)
         {
             try
-            {               
-                var departmentEntity = _mapper.Map<Department>(model);
-                var updateDepartment = await _departmentRepo.UpdateAsync(departmentEntity);
+            {
+                var updateDepartment = await _departmentService.UpdateAsync(model);
                 return Ok();
             }
             catch (Exception)
@@ -84,7 +80,7 @@ namespace App.API.Controllers
         {
             try
             {
-                await _departmentRepo.DeleteAsync(id);
+                await _departmentService.DeleteAsync(id);
                 return Ok();
             }
             catch (Exception)

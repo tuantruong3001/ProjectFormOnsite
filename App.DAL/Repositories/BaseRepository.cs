@@ -1,6 +1,5 @@
 ﻿using App.DAL.Data;
 using App.Domain.Interfaces.IRepositories;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.DAL.Repositories
@@ -9,13 +8,11 @@ namespace App.DAL.Repositories
     {
         protected readonly DataContext _dataContext;
         protected readonly DbSet<T> _dbSet;
-        protected readonly IMapper _mapper;
 
-        public BaseRepository(DataContext dataContext, IMapper mapper)
+        public BaseRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
             _dbSet = _dataContext.Set<T>();
-            _mapper = mapper;
         }
 
         public async Task<T> CreateAsync(T entity)

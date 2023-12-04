@@ -5,7 +5,9 @@ namespace App.Domain.Interfaces.IServices
 {
     public interface IEmployeeService : IBaseService<Employee, int>
     {
-        public Task<List<EmployeeModel>> GetAllEmployeeAsync();
-        public Task<EmployeeModel> GetEmployeeByIdAsync(int id);
+        Task<List<EmployeeModel>> GetAllEmployeeAsync();
+        Task<EmployeeModel> GetEmployeeByIdAsync(int id);
+        Task<Employee> CreateEmployeeAsync(AddEmployeeModel model);
+        Task<Employee> UpdateEmployeeAsync(AddEmployeeModel model);
     }
 }

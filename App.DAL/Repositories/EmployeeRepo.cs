@@ -7,7 +7,7 @@ namespace App.DAL.Repositories
 {
     public class EmployeeRepo : BaseRepository<Employee, int>, IEmployeeRepo
     {
-        public EmployeeRepo(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public EmployeeRepo(DataContext dataContext) : base(dataContext)
         {
 
         }  

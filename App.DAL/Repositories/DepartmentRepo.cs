@@ -7,7 +7,7 @@ namespace App.DAL.Repositories
 {
     public class DepartmentRepo : BaseRepository<Department, int>, IDepartmentRepo
     {
-        public DepartmentRepo(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public DepartmentRepo(DataContext dataContext) : base(dataContext)
         {
 
         }             

@@ -12,12 +12,10 @@ namespace App.API.Controllers
     [ApiController]
     public class OnsiteController : ControllerBase
     {
-        private readonly IOnsiteRepo _onsiteRepo;
         private readonly IMapper _mapper;
         private readonly IOnsiteService _onsiteService;
-        public OnsiteController(IOnsiteRepo repo,IMapper mapper, IOnsiteService onsiteService)
+        public OnsiteController(IMapper mapper, IOnsiteService onsiteService)
         {
-            _onsiteRepo = repo;
             _mapper = mapper;
             _onsiteService = onsiteService;
         }
@@ -27,7 +25,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var onsite = await _onsiteRepo.GetAllOnsiteAsync();
+                var onsite = await _onsiteService.GetAllOnsiteAsync();
                 return Ok(onsite);
             }
             catch (Exception)
@@ -55,8 +53,7 @@ namespace App.API.Controllers
         {
             try
             {
-                var onsiteEntity = _mapper.Map<Onsite>(model);
-                var newOnsiteId = await _onsiteRepo.CreateAsync(onsiteEntity);
+                var newOnsiteId = await _onsiteService.CreateOnsiteAsync(model);
                 return newOnsiteId == null ? NotFound() : Ok(newOnsiteId);
             }
             catch (Exception)
@@ -70,9 +67,8 @@ namespace App.API.Controllers
         {
             try
             {
-                var onsiteEntity = _mapper.Map<Onsite>(model);
-                await _onsiteRepo.UpdateAsync(onsiteEntity);
-                return Ok(onsiteEntity);
+                await _onsiteService.UpdateOnsiteAsync(model);
+                return Ok();
             }
             catch (Exception)
             {
@@ -85,7 +81,7 @@ namespace App.API.Controllers
         {
             try
             {
-                await _onsiteRepo.DeleteAsync(id);
+                await _onsiteService.DeleteAsync(id);
                 return Ok();
             }
             catch
@@ -95,7 +91,7 @@ namespace App.API.Controllers
         }
 
         [HttpPatch("ConfirmOnsiteAsync")]
-        public async Task<IActionResult> ConfirmOnsiteAsync(int id,[FromBody] JsonPatchDocument<ConfirmModel> patchDoc)
+        public async Task<IActionResult> ConfirmOnsiteAsync(int id, [FromBody] JsonPatchDocument<ConfirmModel> patchDoc)
         {
             try
             {

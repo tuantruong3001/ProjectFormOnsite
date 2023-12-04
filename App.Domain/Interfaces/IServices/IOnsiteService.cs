@@ -6,9 +6,11 @@ namespace App.Domain.Interfaces.IServices
 {
     public interface IOnsiteService : IBaseService<Onsite, int>
     {
-        public Task<List<OnsiteModel>> GetAllOnsiteAsync();
-        public Task<InforOnsiteModel> GetOnsiteByIdAsync(int id);
-        public Task<int> RegisterOnsiteAsync(RegisterOnsiteModel model);
-        public Task ConfirmOnsiteAsync(int id,JsonPatchDocument<ConfirmModel> model);
+        Task<List<OnsiteModel>> GetAllOnsiteAsync();
+        Task<InforOnsiteModel> GetOnsiteByIdAsync(int id);
+        Task<int> RegisterOnsiteAsync(RegisterOnsiteModel model);
+        Task ConfirmOnsiteAsync(int id,JsonPatchDocument<ConfirmModel> model);
+        Task<Onsite> CreateOnsiteAsync(OnsiteModel model);
+        Task<Onsite> UpdateOnsiteAsync(OnsiteModel model);
     }
 }

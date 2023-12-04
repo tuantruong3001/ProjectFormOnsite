@@ -11,12 +11,10 @@ namespace App.API.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IEmployeeRepo _employeeRepo;
         private readonly IMapper _mapper;
         private readonly IEmployeeService _employeeService;
-        public EmployeeController(IEmployeeRepo repo, IMapper mapper, IEmployeeService employeeService)
+        public EmployeeController(IMapper mapper, IEmployeeService employeeService)
         {
-            _employeeRepo = repo;
             _mapper = mapper;
             _employeeService = employeeService;
         }
@@ -53,10 +51,9 @@ namespace App.API.Controllers
         public async Task<IActionResult> CreateEmployee(AddEmployeeModel model)
         {
             try
-            {
-                var employeeEntity = _mapper.Map<Employee>(model);
-                var newEmployeeId = await _employeeRepo.CreateAsync(employeeEntity);
-                return employeeEntity == null ? NotFound() : Ok(employeeEntity);
+            {               
+                var newEmployeeId = await _employeeService.CreateEmployeeAsync(model);
+                return newEmployeeId == null ? NotFound() : Ok(newEmployeeId);
             }
             catch (Exception)
             {
@@ -69,9 +66,8 @@ namespace App.API.Controllers
         {
             try
             {
-                var employeeEntity = _mapper.Map<Employee>(model);
-                await _employeeRepo.UpdateAsync(employeeEntity);
-                return Ok(employeeEntity);
+                await _employeeService.UpdateEmployeeAsync(model);
+                return Ok();
             }
             catch (Exception)
             {
@@ -84,7 +80,7 @@ namespace App.API.Controllers
         {
             try
             {
-                await _employeeRepo.DeleteAsync(id);
+                await _employeeService.DeleteAsync(id);
                 return Ok();
             }
             catch (Exception)

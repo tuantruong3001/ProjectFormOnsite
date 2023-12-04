@@ -1,24 +1,28 @@
 ﻿using App.DAL.Data;
 using App.Domain.Entities;
 using App.Domain.Enum;
+using App.Domain.Interfaces.IRepositories;
 using App.Domain.Interfaces.IServices;
 using App.Domain.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Application.Services
 {
     public class OnsiteService : BaseService<Onsite, int>, IOnsiteService
     {
-        public OnsiteService(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        private readonly IOnsiteRepo _onsiteRepo;
+        public OnsiteService(DataContext dataContext, IMapper mapper,
+            IOnsiteRepo onsiteRepo) : base(dataContext, mapper, onsiteRepo)
         {
+            _onsiteRepo = onsiteRepo;
         }
 
         public async Task<List<OnsiteModel>> GetAllOnsiteAsync()
         {
-            var onsite = await _dataContext.Onsites
-                .ToListAsync();
+            var onsite = await _onsiteRepo.GetAllOnsiteAsync();
             return _mapper.Map<List<OnsiteModel>>(onsite);
         }
 
@@ -75,6 +79,18 @@ namespace App.Application.Services
             await _dataContext.SaveChangesAsync();
 
             return newOnsite.OnsiteID;
+        }
+
+        public async Task<Onsite> CreateOnsiteAsync(OnsiteModel model)
+        {
+            var onsite = _mapper.Map<Onsite>(model);
+            return await _onsiteRepo.CreateAsync(onsite);
+        }
+
+        public async Task<Onsite> UpdateOnsiteAsync(OnsiteModel model)
+        {
+            var onsite = _mapper.Map<Onsite>(model);
+            return await _onsiteRepo.UpdateAsync(onsite);
         }
     }
 }
