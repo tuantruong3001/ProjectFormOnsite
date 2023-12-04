@@ -12,11 +12,9 @@ namespace App.API.Controllers
     [ApiController]
     public class OnsiteController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IOnsiteService _onsiteService;
-        public OnsiteController(IMapper mapper, IOnsiteService onsiteService)
+        public OnsiteController(IOnsiteService onsiteService)
         {
-            _mapper = mapper;
             _onsiteService = onsiteService;
         }
 

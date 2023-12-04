@@ -11,11 +11,9 @@ namespace App.API.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IEmployeeService _employeeService;
-        public EmployeeController(IMapper mapper, IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _mapper = mapper;
             _employeeService = employeeService;
         }
 

@@ -11,12 +11,10 @@ namespace App.API.Controllers
     [ApiController]
     public class DepartmentController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IDepartmentService _departmentService;
 
-        public DepartmentController(IMapper mapper, IDepartmentService departmentService)
+        public DepartmentController(IDepartmentService departmentService)
         {
-            _mapper = mapper;
             _departmentService = departmentService;
         }
 
