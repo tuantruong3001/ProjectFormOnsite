@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using App.Domain.Models;
-using App.Domain.Interfaces.IRepositories;
-using AutoMapper;
-using App.Domain.Entities;
 using App.Domain.Interfaces.IServices;
 
 namespace App.API.Controllers

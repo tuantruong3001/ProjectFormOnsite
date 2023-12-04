@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using App.Domain.Models;
-using App.Domain.Interfaces.IRepositories;
 using App.Domain.Entities;
-using AutoMapper;
 using App.Domain.Interfaces.IServices;
 
 namespace App.API.Controllers

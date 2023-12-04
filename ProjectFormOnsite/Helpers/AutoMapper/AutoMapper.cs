@@ -1,18 +1,22 @@
-﻿using AutoMapper;
+﻿using App.Domain.Entities;
 using App.Domain.Models;
-using App.Domain.Entities;
+using AutoMapper;
 
-namespace App.API.Helpers
+namespace App.API.Helpers.AutoMapper
 {
-    public class OnsiteMapper : Profile
+    public class AutoMapper : Profile
     {
-        public OnsiteMapper()
+        public AutoMapper()
         {
+            CreateMap<Department, DepartmentModel>().ReverseMap();
+            CreateMap<Employee, EmployeeModel>().ReverseMap();
+            CreateMap<Employee, AddEmployeeModel>().ReverseMap();
             CreateMap<Onsite, OnsiteModel>().ReverseMap();
             CreateMap<Onsite, InforOnsiteModel>().ReverseMap();
             CreateMap<Department, InforOnsiteModel>().ReverseMap();
             CreateMap<Onsite, ConfirmModel>().ReverseMap();
             CreateMap<Onsite, RegisterOnsiteModel>().ReverseMap();
         }
+
     }
 }
