@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using App.Domain.Models;
 using App.Domain.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace App.API.Controllers
 {
@@ -9,6 +10,7 @@ namespace App.API.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
+
         public EmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
@@ -27,7 +29,8 @@ namespace App.API.Controllers
                 return BadRequest();
             }
         }
-
+        
+        [Authorize]
         [HttpGet("GetEmployeeById/{id}")]
         public async Task<IActionResult> GetEmployeeById(int id)
         {
@@ -41,12 +44,11 @@ namespace App.API.Controllers
                 return BadRequest();
             }
         }
-
         [HttpPost("CreateEmployee")]
         public async Task<IActionResult> CreateEmployee(AddEmployeeModel model)
         {
             try
-            {               
+            {
                 var newEmployeeId = await _employeeService.CreateEmployeeAsync(model);
                 return newEmployeeId == null ? NotFound() : Ok(newEmployeeId);
             }
@@ -83,6 +85,5 @@ namespace App.API.Controllers
                 return BadRequest();
             }
         }
-
     }
 }

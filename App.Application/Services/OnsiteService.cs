@@ -5,8 +5,6 @@ using App.Domain.Interfaces.IRepositories;
 using App.Domain.Interfaces.IServices;
 using App.Domain.Models;
 using AutoMapper;
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Application.Services
@@ -29,6 +27,7 @@ namespace App.Application.Services
         public async Task<InforOnsiteModel> GetOnsiteByIdAsync(int id)
         {
             var onsite = await _dataContext.Onsites
+                
                 .Include(o => o.Employee!.Department)
                 .Include(a => a.Approver!.Department)
                 .FirstOrDefaultAsync(o => o.OnsiteID == id);
@@ -37,24 +36,18 @@ namespace App.Application.Services
             return onsiteModel;
         }
 
-        public async Task ConfirmOnsiteAsync(int id, JsonPatchDocument<ConfirmModel> patchDocument)
+        public async Task<Onsite> ConfirmOnsiteAsync(int id, ConfirmModel model)
         {
-            var onsite = await _dataContext.Onsites.FindAsync(id);
+            var onsite = await _dataContext.Onsites.FirstOrDefaultAsync(o => o.OnsiteID == id);
             if (onsite != null)
-            {
-                var confirmModel = new ConfirmModel
-                {
-                    Status = onsite.Status,
-                    Detail = onsite.Detail,
-                    Reason = onsite.Reason
-                };
-                patchDocument.ApplyTo(confirmModel);
-                onsite.Status = confirmModel.Status;
-                onsite.Detail = confirmModel.Detail;
-                onsite.Reason = confirmModel.Reason;
+            {               
+                onsite.Status = model.Status;
+                onsite.Detail = model.Detail;
+                onsite.Reason = model.Reason;
 
                 await _dataContext.SaveChangesAsync();
             }
+            return onsite!;
         }
         public async Task<int> RegisterOnsiteAsync(RegisterOnsiteModel model)
         {

@@ -1,0 +1,30 @@
+name: workflow-dev
+
+on:
+  push:
+    branches:
+      - task/EPS-test-Github-Runner
+  pull_request:
+    branches:
+      - task/EPS-test-Github-Runner
+
+jobs:
+  build:
+    runs-on:
+      - self-hosted
+      - label-1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run tests
+        run: echo Hello  # Replace with your specific test command
+
+      - name: Set environment variables
+        run: chmod +x ./.github/workflows/env.sh && ./.github/workflows/env.sh
+        env:
+          AZURE_APIKEY: ${{secrets.AZURE_APIKEY}}
+        shell: bash
+
+      - name: Display Updated appsettings.json
+        run: cat ./appsettings.json

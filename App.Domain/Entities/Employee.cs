@@ -9,6 +9,7 @@ namespace App.Domain.Entities
         [Key]
         public int EmployeeID { get; set; }
         public int DepartmentID { get; set; }
+        public int UserID { get; set; }
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;

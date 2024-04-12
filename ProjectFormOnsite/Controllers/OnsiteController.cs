@@ -85,18 +85,18 @@ namespace App.API.Controllers
             }
         }
 
-        [HttpPatch("ConfirmOnsiteAsync")]
-        public async Task<IActionResult> ConfirmOnsiteAsync(int id, [FromBody] JsonPatchDocument<ConfirmModel> patchDoc)
+        [HttpPatch("ConfirmOnsiteAsync/{id}")]
+        public async Task<IActionResult> ConfirmOnsiteAsync(int id, ConfirmModel model)
         {
             try
             {
-                if (patchDoc == null || !ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    return BadRequest("Invalid patch document");
+                    return BadRequest("NotFound");
                 }
-                await _onsiteService.ConfirmOnsiteAsync(id, patchDoc);
+                var newOnsiteId = await _onsiteService.ConfirmOnsiteAsync(id, model);
 
-                return Ok();
+                return newOnsiteId == null ? NotFound() : Ok(newOnsiteId);
             }
             catch (Exception)
             {

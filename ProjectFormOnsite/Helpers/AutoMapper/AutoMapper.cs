@@ -16,6 +16,7 @@ namespace App.API.Helpers.AutoMapper
             CreateMap<Department, InforOnsiteModel>().ReverseMap();
             CreateMap<Onsite, ConfirmModel>().ReverseMap();
             CreateMap<Onsite, RegisterOnsiteModel>().ReverseMap();
+            CreateMap<User, LoginModel>().ReverseMap();
         }
 
     }
