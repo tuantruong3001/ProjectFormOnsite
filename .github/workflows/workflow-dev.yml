@@ -3,16 +3,15 @@ name: workflow-dev
 on:
   push:
     branches:
-      - task/EPS-test-Github-Runner
+      - tuantv
   pull_request:
     branches:
-      - task/EPS-test-Github-Runner
+      - tuantv
 
 jobs:
   build:
     runs-on:
-      - self-hosted
-      - label-1
+      - ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

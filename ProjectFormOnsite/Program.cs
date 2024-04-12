@@ -98,6 +98,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.UseAuthenticationMiddleware();
+app.UseAuthenticationMiddleware();
 app.MapControllers();
 app.Run();
