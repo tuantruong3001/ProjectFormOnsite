@@ -9,11 +9,21 @@ on:  # Triggers the workflow
 jobs:
   build:  # Name of the job
 
-    runs-on: 
-    - self-hosted  # The type of GitHub-hosted runner
-    - label-1
-    steps:  # Steps within the job
-      - uses: actions/checkout@v3  # Checks out your repository
-      - name: Run tests
-        run:
-          echo Hello  # Replace with your specific test command
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '11.0'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
