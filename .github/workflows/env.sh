@@ -12,3 +12,4 @@ function replace_values() {
 }
 
 replace_values ./appsettings.json
+
